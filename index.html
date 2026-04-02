@@ -870,6 +870,12 @@
     font-size: 11px;
     color: var(--slate-400);
   }
+  .pkg-hourly-rate {
+    font-size: 11px;
+    color: var(--slate-500);
+    margin-top: 2px;
+    font-weight: 500;
+  }
 
   /* ── PAGINATION ── */
   .pagination {
@@ -1139,7 +1145,7 @@
       cat: 'ai',
       expert: 'Sarah Kim', initials: 'SK',
       country: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', lang: 'English, Korean',
-      price: '180', priceType: 'tm', priceLabel: 'est. 20\u201330 hrs', priceSuffix: '/hr',
+      price: '4,500', priceType: 'tm', priceLabel: 'fixed price', hourlyRate: '180', hourlyLabel: 'USD 180/hr',
       rating: 4.8, reviews: 24
     },
     {
@@ -1169,7 +1175,7 @@
       cat: 'service',
       expert: 'James Thompson', initials: 'JT',
       country: 'United Kingdom', flag: '\uD83C\uDDEC\uD83C\uDDE7', lang: 'English',
-      price: '150', priceType: 'tm', priceLabel: 'est. 40\u201360 hrs', priceSuffix: '/hr',
+      price: '7,500', priceType: 'tm', priceLabel: 'fixed price', hourlyRate: '150', hourlyLabel: 'USD 150/hr',
       rating: 5.0, reviews: 8
     },
     {
@@ -1392,19 +1398,19 @@
     var priceNum = document.createTextNode(pkg.price);
     priceAmt.appendChild(priceNum);
 
-    if (pkg.priceSuffix) {
-      var suffix = document.createElement('span');
-      suffix.className = 'currency';
-      suffix.textContent = pkg.priceSuffix;
-      priceAmt.appendChild(suffix);
-    }
-
     priceWrap.appendChild(priceAmt);
 
     var priceLabel = document.createElement('div');
     priceLabel.className = 'pkg-price-label';
     priceLabel.textContent = pkg.priceLabel;
     priceWrap.appendChild(priceLabel);
+
+    if (pkg.hourlyRate) {
+      var hourlyLine = document.createElement('div');
+      hourlyLine.className = 'pkg-hourly-rate';
+      hourlyLine.textContent = pkg.hourlyLabel;
+      priceWrap.appendChild(hourlyLine);
+    }
 
     footer.appendChild(priceWrap);
     card.appendChild(footer);
