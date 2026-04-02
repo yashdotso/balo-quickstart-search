@@ -1135,7 +1135,7 @@
       cat: 'service',
       expert: 'Nick Bird', initials: 'NB',
       country: 'Australia', flag: '\uD83C\uDDE6\uD83C\uDDFA', lang: 'English',
-      price: '4,500', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '4,500', priceType: 'fixed',
       rating: 5.0, reviews: 12
     },
     {
@@ -1145,7 +1145,7 @@
       cat: 'ai',
       expert: 'Sarah Kim', initials: 'SK',
       country: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', lang: 'English, Korean',
-      price: '4,500', priceType: 'tm', priceLabel: 'fixed price', hourlyRate: '180', hourlyLabel: 'USD 180/hr',
+      price: '4,500', priceType: 'tm', hourlyRate: '180', hourlyLabel: 'USD 180/hr',
       rating: 4.8, reviews: 24
     },
     {
@@ -1155,7 +1155,7 @@
       cat: 'sales',
       expert: 'Hendrik Verbeek', initials: 'HV',
       country: 'South Africa', flag: '\uD83C\uDDFF\uD83C\uDDE6', lang: 'English, Afrikaans',
-      price: '3,200', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '3,200', priceType: 'fixed',
       rating: 4.9, reviews: 18
     },
     {
@@ -1165,7 +1165,7 @@
       cat: 'data',
       expert: 'Maya Rodriguez', initials: 'MR',
       country: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', lang: 'English, Spanish',
-      price: '6,800', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '6,800', priceType: 'fixed',
       rating: 4.7, reviews: 31
     },
     {
@@ -1175,7 +1175,7 @@
       cat: 'service',
       expert: 'James Thompson', initials: 'JT',
       country: 'United Kingdom', flag: '\uD83C\uDDEC\uD83C\uDDE7', lang: 'English',
-      price: '7,500', priceType: 'tm', priceLabel: 'fixed price', hourlyRate: '150', hourlyLabel: 'USD 150/hr',
+      price: '7,500', priceType: 'tm', hourlyRate: '150', hourlyLabel: 'USD 150/hr',
       rating: 5.0, reviews: 8
     },
     {
@@ -1185,7 +1185,7 @@
       cat: 'marketing',
       expert: 'Anika Patel', initials: 'AP',
       country: 'India', flag: '\uD83C\uDDEE\uD83C\uDDF3', lang: 'English, Hindi',
-      price: '5,200', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '5,200', priceType: 'fixed',
       rating: 4.6, reviews: 15
     }
   ];
@@ -1399,11 +1399,6 @@
     priceAmt.appendChild(priceNum);
 
     priceWrap.appendChild(priceAmt);
-
-    var priceLabel = document.createElement('div');
-    priceLabel.className = 'pkg-price-label';
-    priceLabel.textContent = pkg.priceLabel;
-    priceWrap.appendChild(priceLabel);
 
     if (pkg.hourlyRate) {
       var hourlyLine = document.createElement('div');
