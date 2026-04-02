@@ -160,24 +160,283 @@
     color: var(--slate-400);
     width: 18px;
     height: 18px;
+    pointer-events: none;
+    z-index: 1;
   }
-  .search-input {
+
+  /* ── PRODUCT SELECTOR ── */
+  .product-selector-trigger {
     width: 100%;
     height: 46px;
-    padding: 0 16px 0 42px;
+    padding: 0 38px 0 42px;
     border: 1.5px solid var(--card-border);
     border-radius: var(--radius-md);
     font-size: 14px;
     font-family: inherit;
     background: var(--card-bg);
     color: var(--slate-800);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    user-select: none;
+    position: relative;
   }
-  .search-input::placeholder { color: var(--slate-400); }
-  .search-input:focus {
-    outline: none;
+  .product-selector-trigger:hover {
+    border-color: var(--slate-300);
+  }
+  .product-selector-trigger.open {
     border-color: var(--blue-500);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+  .product-selector-trigger .placeholder {
+    color: var(--slate-400);
+  }
+  .product-selector-trigger .chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate-400);
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .product-selector-trigger.open .chevron {
+    transform: translateY(-50%) rotate(180deg);
+  }
+  .selected-products-inline {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    overflow: hidden;
+    flex: 1;
+  }
+  .selected-inline-chip {
+    padding: 2px 8px;
+    background: var(--blue-50);
+    color: var(--blue-700);
+    border: 1px solid var(--blue-100);
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .selected-inline-more {
+    font-size: 12px;
+    color: var(--slate-400);
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Dropdown */
+  .product-selector-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 50;
+    display: none;
+    max-height: 420px;
+    overflow: hidden;
+    animation: dropdownFadeIn 0.2s ease;
+  }
+  .product-selector-dropdown.open {
+    display: flex;
+    flex-direction: column;
+  }
+  @keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dropdown-search-wrap {
+    padding: 12px 14px 8px;
+    border-bottom: 1px solid var(--card-border);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .dropdown-search-wrap svg {
+    position: absolute;
+    left: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate-400);
+    width: 16px;
+    height: 16px;
+    margin-top: -2px;
+  }
+  .dropdown-search-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px 0 34px;
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--slate-50);
+    color: var(--slate-800);
+    transition: border-color 0.15s;
+  }
+  .dropdown-search-input::placeholder { color: var(--slate-400); }
+  .dropdown-search-input:focus {
+    outline: none;
+    border-color: var(--blue-500);
+    background: var(--card-bg);
+  }
+
+  .dropdown-selected-bar {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--card-border);
+    display: none;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .dropdown-selected-bar.has-items {
+    display: flex;
+  }
+  .dropdown-selected-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: var(--blue-50);
+    color: var(--blue-700);
+    border: 1px solid var(--blue-100);
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: default;
+  }
+  .dropdown-selected-chip button {
+    background: none;
+    border: none;
+    color: var(--blue-400);
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  .dropdown-selected-chip button:hover {
+    color: var(--blue-700);
+  }
+  .dropdown-clear-all {
+    font-size: 11px;
+    color: var(--blue-600);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    margin-left: 4px;
+    padding: 2px 4px;
+  }
+  .dropdown-clear-all:hover {
+    text-decoration: underline;
+  }
+
+  .dropdown-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 8px 0;
+  }
+  .dropdown-category {
+    padding: 0 6px;
+  }
+  .dropdown-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--slate-400);
+    cursor: default;
+  }
+  .dropdown-category-header .cat-icon {
+    font-size: 13px;
+  }
+  .dropdown-product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: 1px 0;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--slate-600);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+    user-select: none;
+  }
+  .dropdown-product-item:hover {
+    background: var(--blue-50);
+    color: var(--slate-800);
+  }
+  .dropdown-product-item.selected {
+    background: var(--blue-50);
+    color: var(--blue-700);
+    font-weight: 500;
+  }
+  .dropdown-product-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--slate-300);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .dropdown-product-item.selected .dropdown-product-check {
+    background: var(--blue-600);
+    border-color: var(--blue-600);
+  }
+  .dropdown-product-item.selected .dropdown-product-check::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border: 2px solid white;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    margin-top: -2px;
+  }
+  .dropdown-product-name {
+    flex: 1;
+  }
+  .dropdown-product-category-label {
+    font-size: 11px;
+    color: var(--slate-400);
+    font-weight: 400;
+  }
+  .dropdown-no-results {
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--slate-400);
+    font-size: 13px;
+  }
+  .dropdown-no-results span {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 6px;
   }
   .filter-toggle {
     height: 46px;
@@ -611,6 +870,12 @@
     font-size: 11px;
     color: var(--slate-400);
   }
+  .pkg-hourly-rate {
+    font-size: 11px;
+    color: var(--slate-500);
+    margin-top: 2px;
+    font-weight: 500;
+  }
 
   /* ── PAGINATION ── */
   .pagination {
@@ -733,11 +998,25 @@
     <div class="result-count"><strong>42</strong> packages available</div>
   </div>
 
-  <!-- Search bar -->
+  <!-- Product Selector -->
   <div class="search-bar">
-    <div class="search-input-wrap">
+    <div class="search-input-wrap" id="productSelectorWrap">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-      <input type="text" class="search-input" placeholder="Search packages — e.g. &quot;Agentforce setup&quot; or &quot;data migration&quot;">
+      <div class="product-selector-trigger" id="productSelectorTrigger">
+        <span class="placeholder" id="selectorPlaceholder">Select products — browse by category</span>
+        <div class="selected-products-inline" id="selectedInline" style="display:none"></div>
+        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="product-selector-dropdown" id="productDropdown">
+        <div class="dropdown-search-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          <input type="text" class="dropdown-search-input" id="dropdownSearchInput" placeholder="Search products...">
+        </div>
+        <div class="dropdown-selected-bar" id="dropdownSelectedBar"></div>
+        <div class="dropdown-body" id="dropdownBody"></div>
+      </div>
     </div>
     <button class="filter-toggle" id="filterToggle" onclick="toggleFilters()">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
@@ -856,7 +1135,7 @@
       cat: 'service',
       expert: 'Nick Bird', initials: 'NB',
       country: 'Australia', flag: '\uD83C\uDDE6\uD83C\uDDFA', lang: 'English',
-      price: '4,500', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '4,500', priceType: 'fixed',
       rating: 5.0, reviews: 12
     },
     {
@@ -866,7 +1145,7 @@
       cat: 'ai',
       expert: 'Sarah Kim', initials: 'SK',
       country: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', lang: 'English, Korean',
-      price: '180', priceType: 'tm', priceLabel: 'est. 20\u201330 hrs', priceSuffix: '/hr',
+      price: '4,500', priceType: 'tm', hourlyRate: '180', hourlyLabel: 'USD 180/hr',
       rating: 4.8, reviews: 24
     },
     {
@@ -876,7 +1155,7 @@
       cat: 'sales',
       expert: 'Hendrik Verbeek', initials: 'HV',
       country: 'South Africa', flag: '\uD83C\uDDFF\uD83C\uDDE6', lang: 'English, Afrikaans',
-      price: '3,200', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '3,200', priceType: 'fixed',
       rating: 4.9, reviews: 18
     },
     {
@@ -886,7 +1165,7 @@
       cat: 'data',
       expert: 'Maya Rodriguez', initials: 'MR',
       country: 'United States', flag: '\uD83C\uDDFA\uD83C\uDDF8', lang: 'English, Spanish',
-      price: '6,800', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '6,800', priceType: 'fixed',
       rating: 4.7, reviews: 31
     },
     {
@@ -896,7 +1175,7 @@
       cat: 'service',
       expert: 'James Thompson', initials: 'JT',
       country: 'United Kingdom', flag: '\uD83C\uDDEC\uD83C\uDDE7', lang: 'English',
-      price: '150', priceType: 'tm', priceLabel: 'est. 40\u201360 hrs', priceSuffix: '/hr',
+      price: '7,500', priceType: 'tm', hourlyRate: '150', hourlyLabel: 'USD 150/hr',
       rating: 5.0, reviews: 8
     },
     {
@@ -906,7 +1185,7 @@
       cat: 'marketing',
       expert: 'Anika Patel', initials: 'AP',
       country: 'India', flag: '\uD83C\uDDEE\uD83C\uDDF3', lang: 'English, Hindi',
-      price: '5,200', priceType: 'fixed', priceLabel: 'fixed price',
+      price: '5,200', priceType: 'fixed',
       rating: 4.6, reviews: 15
     }
   ];
@@ -1119,19 +1398,14 @@
     var priceNum = document.createTextNode(pkg.price);
     priceAmt.appendChild(priceNum);
 
-    if (pkg.priceSuffix) {
-      var suffix = document.createElement('span');
-      suffix.className = 'currency';
-      suffix.textContent = pkg.priceSuffix;
-      priceAmt.appendChild(suffix);
-    }
-
     priceWrap.appendChild(priceAmt);
 
-    var priceLabel = document.createElement('div');
-    priceLabel.className = 'pkg-price-label';
-    priceLabel.textContent = pkg.priceLabel;
-    priceWrap.appendChild(priceLabel);
+    if (pkg.hourlyRate) {
+      var hourlyLine = document.createElement('div');
+      hourlyLine.className = 'pkg-hourly-rate';
+      hourlyLine.textContent = pkg.hourlyLabel;
+      priceWrap.appendChild(hourlyLine);
+    }
 
     footer.appendChild(priceWrap);
     card.appendChild(footer);
@@ -1279,14 +1553,221 @@
   renderActiveFilters();
   renderPagination();
 
-  // Search input interaction
-  document.querySelector('.search-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      document.querySelectorAll('.pkg-card').forEach(function(c, i) {
-        c.style.animation = 'none';
-        c.offsetHeight;
-        c.style.animation = 'fadeSlideUp 0.3s ease ' + (i * 0.04) + 's both';
+  // ── PRODUCT SELECTOR ──
+  var selectedProducts = [];
+  var dropdownOpen = false;
+
+  function buildDropdownBody(filter) {
+    var body = document.getElementById('dropdownBody');
+    while (body.firstChild) body.removeChild(body.firstChild);
+
+    var filterLower = (filter || '').toLowerCase();
+    var hasResults = false;
+
+    categoryData.forEach(function(cat) {
+      if (cat.id === 'all') return;
+      var products = categoryProducts[cat.id];
+      if (!products) return;
+
+      var matchedProducts = products.filter(function(p) {
+        return !filterLower || p.toLowerCase().indexOf(filterLower) !== -1 ||
+               cat.label.toLowerCase().indexOf(filterLower) !== -1;
       });
+      if (matchedProducts.length === 0) return;
+
+      hasResults = true;
+
+      var catSection = document.createElement('div');
+      catSection.className = 'dropdown-category';
+
+      var header = document.createElement('div');
+      header.className = 'dropdown-category-header';
+      var catIcon = document.createElement('span');
+      catIcon.className = 'cat-icon';
+      catIcon.textContent = cat.icon;
+      header.appendChild(catIcon);
+      header.appendChild(document.createTextNode(cat.label));
+      catSection.appendChild(header);
+
+      matchedProducts.forEach(function(product) {
+        var item = document.createElement('div');
+        item.className = 'dropdown-product-item';
+        if (selectedProducts.indexOf(product) !== -1) {
+          item.classList.add('selected');
+        }
+        item.setAttribute('data-product', product);
+        item.setAttribute('data-category', cat.label);
+
+        var check = document.createElement('span');
+        check.className = 'dropdown-product-check';
+        item.appendChild(check);
+
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'dropdown-product-name';
+        nameSpan.textContent = product;
+        item.appendChild(nameSpan);
+
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleProduct(product);
+        });
+
+        catSection.appendChild(item);
+      });
+
+      body.appendChild(catSection);
+    });
+
+    if (!hasResults) {
+      var noResults = document.createElement('div');
+      noResults.className = 'dropdown-no-results';
+      var icon = document.createElement('span');
+      icon.textContent = '\uD83D\uDD0D';
+      noResults.appendChild(icon);
+      noResults.appendChild(document.createTextNode('No products match "' + filter + '"'));
+      body.appendChild(noResults);
+    }
+  }
+
+  function toggleProduct(product) {
+    var idx = selectedProducts.indexOf(product);
+    if (idx === -1) {
+      selectedProducts.push(product);
+    } else {
+      selectedProducts.splice(idx, 1);
+    }
+    updateSelectorUI();
+    buildDropdownBody(document.getElementById('dropdownSearchInput').value);
+  }
+
+  function removeProduct(product) {
+    var idx = selectedProducts.indexOf(product);
+    if (idx !== -1) {
+      selectedProducts.splice(idx, 1);
+    }
+    updateSelectorUI();
+    if (dropdownOpen) {
+      buildDropdownBody(document.getElementById('dropdownSearchInput').value);
+    }
+  }
+
+  function updateSelectorUI() {
+    var placeholder = document.getElementById('selectorPlaceholder');
+    var inlineWrap = document.getElementById('selectedInline');
+    var selectedBar = document.getElementById('dropdownSelectedBar');
+
+    // Update trigger display
+    if (selectedProducts.length === 0) {
+      placeholder.style.display = '';
+      inlineWrap.style.display = 'none';
+    } else {
+      placeholder.style.display = 'none';
+      inlineWrap.style.display = 'flex';
+      while (inlineWrap.firstChild) inlineWrap.removeChild(inlineWrap.firstChild);
+
+      var maxShow = 3;
+      var toShow = selectedProducts.slice(0, maxShow);
+      toShow.forEach(function(p) {
+        var chip = document.createElement('span');
+        chip.className = 'selected-inline-chip';
+        chip.textContent = p;
+        inlineWrap.appendChild(chip);
+      });
+      if (selectedProducts.length > maxShow) {
+        var more = document.createElement('span');
+        more.className = 'selected-inline-more';
+        more.textContent = '+' + (selectedProducts.length - maxShow) + ' more';
+        inlineWrap.appendChild(more);
+      }
+    }
+
+    // Update dropdown selected bar
+    while (selectedBar.firstChild) selectedBar.removeChild(selectedBar.firstChild);
+    if (selectedProducts.length > 0) {
+      selectedBar.classList.add('has-items');
+      selectedProducts.forEach(function(p) {
+        var chip = document.createElement('span');
+        chip.className = 'dropdown-selected-chip';
+        chip.appendChild(document.createTextNode(p + ' '));
+        var removeBtn = document.createElement('button');
+        removeBtn.textContent = '\u00D7';
+        removeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          removeProduct(p);
+        });
+        chip.appendChild(removeBtn);
+        selectedBar.appendChild(chip);
+      });
+      var clearBtn = document.createElement('button');
+      clearBtn.className = 'dropdown-clear-all';
+      clearBtn.textContent = 'Clear all';
+      clearBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectedProducts = [];
+        updateSelectorUI();
+        buildDropdownBody(document.getElementById('dropdownSearchInput').value);
+      });
+      selectedBar.appendChild(clearBtn);
+    } else {
+      selectedBar.classList.remove('has-items');
+    }
+  }
+
+  function openDropdown() {
+    if (dropdownOpen) return;
+    dropdownOpen = true;
+    var trigger = document.getElementById('productSelectorTrigger');
+    var dropdown = document.getElementById('productDropdown');
+    trigger.classList.add('open');
+    dropdown.classList.add('open');
+    buildDropdownBody('');
+    document.getElementById('dropdownSearchInput').value = '';
+    setTimeout(function() {
+      document.getElementById('dropdownSearchInput').focus();
+    }, 50);
+  }
+
+  function closeDropdown() {
+    if (!dropdownOpen) return;
+    dropdownOpen = false;
+    var trigger = document.getElementById('productSelectorTrigger');
+    var dropdown = document.getElementById('productDropdown');
+    trigger.classList.remove('open');
+    dropdown.classList.remove('open');
+  }
+
+  // Toggle dropdown on trigger click
+  document.getElementById('productSelectorTrigger').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (dropdownOpen) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
+  });
+
+  // Prevent dropdown close when clicking inside dropdown
+  document.getElementById('productDropdown').addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+
+  // Filter products on search
+  document.getElementById('dropdownSearchInput').addEventListener('input', function() {
+    buildDropdownBody(this.value);
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    var wrap = document.getElementById('productSelectorWrap');
+    if (!wrap.contains(e.target)) {
+      closeDropdown();
+    }
+  });
+
+  // Close dropdown on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && dropdownOpen) {
+      closeDropdown();
     }
   });
 </script>
