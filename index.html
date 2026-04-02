@@ -196,6 +196,7 @@
   }
   .product-selector-trigger .chevron {
     position: absolute;
+    left: auto;
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
@@ -1359,18 +1360,6 @@
     name.className = 'pkg-expert-name';
     name.textContent = pkg.expert;
     info.appendChild(name);
-
-    var meta = document.createElement('div');
-    meta.className = 'pkg-expert-meta';
-
-    var flagSpan = document.createElement('span');
-    flagSpan.className = 'flag';
-    flagSpan.textContent = pkg.flag;
-    meta.appendChild(flagSpan);
-
-    var metaText = document.createTextNode(' ' + pkg.country + ' \u00B7 ' + pkg.lang);
-    meta.appendChild(metaText);
-    info.appendChild(meta);
 
     // Stars
     var stars = renderStars(pkg.rating);
